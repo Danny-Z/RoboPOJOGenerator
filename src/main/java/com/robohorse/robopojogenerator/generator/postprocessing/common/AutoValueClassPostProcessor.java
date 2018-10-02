@@ -26,6 +26,7 @@ public class AutoValueClassPostProcessor extends JavaPostProcessor {
                     new FieldModel.Builder()
                             .setClassType(classFields.get(objectName).getJavaItem())
                             .setAnnotation(classItem.getAnnotation())
+                            .setJson(classFields.get(objectName).json)
                             .setFieldName(objectName)
                             .setFieldNameFormatted(generateHelper.formatClassField(objectName))
                             .build())

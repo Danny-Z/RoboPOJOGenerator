@@ -11,6 +11,8 @@ public class ClassField {
     private String className;
     private ClassField classField;
 
+    public String json = "";
+
     public ClassField() {
     }
 

@@ -15,6 +15,7 @@ public class ClassItem {
     private String packagePath;
     private Map<String, ClassField> classFields = new LinkedHashMap<String, ClassField>();
     private Set<String> classImports = new HashSet<String>();
+    public String json = "";
 
     public ClassItem(String className) {
         this.className = className;

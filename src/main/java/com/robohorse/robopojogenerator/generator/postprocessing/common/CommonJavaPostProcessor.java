@@ -33,6 +33,7 @@ public class CommonJavaPostProcessor extends JavaPostProcessor {
                             .setFieldNameFormatted(itemNameFormatted)
                             .setFieldName(objectName)
                             .setAnnotation(classItem.getAnnotation())
+                            .setJson(classFields.get(objectName).json)
                             .build()
             ));
             if (generationModel.isUseSetters()) {

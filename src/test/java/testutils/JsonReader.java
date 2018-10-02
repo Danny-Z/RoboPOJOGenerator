@@ -4,6 +4,7 @@ import com.google.common.io.CharStreams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,7 +31,7 @@ public class JsonReader {
     }
 
     private String readFile(String name) throws IOException, NullPointerException {
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(name);
+        InputStream inputStream = new FileInputStream("D:\\workspace\\idea\\RoboPOJOGenerator\\src\\test\\resources\\" + name);
         return CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
     }
 }

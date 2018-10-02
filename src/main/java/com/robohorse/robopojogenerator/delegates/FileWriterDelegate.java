@@ -57,7 +57,7 @@ public class FileWriterDelegate {
     private void writeToFile(ClassItem classItem, GenerationModel generationModel,
                              ProjectModel projectModel, File file) throws IOException {
         final String content = prepareClass(classItem, generationModel, projectModel);
-        FileUtils.writeStringToFile(file, content);
+        FileUtils.writeStringToFile(file, content, "UTF-8");
     }
 
     private String prepareClass(ClassItem classItem, GenerationModel generationModel,

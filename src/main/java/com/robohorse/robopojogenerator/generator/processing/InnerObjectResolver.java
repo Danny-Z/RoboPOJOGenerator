@@ -9,39 +9,39 @@ import org.json.JSONObject;
  */
 public abstract class InnerObjectResolver {
 
-    public void resolveClassType(Object object) {
+    public void resolveClassType(String key, Object object) {
         if (object instanceof JSONObject) {
-            onJsonObjectIdentified();
+            onJsonObjectIdentified(key + ":" + object.toString());
 
         } else if (object instanceof JSONArray) {
-            onJsonArrayIdentified();
+            onJsonArrayIdentified(key + ":" + object.toString());
 
         } else if (object instanceof String) {
-            onInnerObjectIdentified(ClassEnum.STRING);
+            onInnerObjectIdentified(key + ":" + object.toString(), ClassEnum.STRING);
 
         } else if (object instanceof Integer) {
-            onInnerObjectIdentified(ClassEnum.INTEGER);
+            onInnerObjectIdentified(key + ":" + object.toString(), ClassEnum.INTEGER);
 
         } else if (object instanceof Double) {
-            onInnerObjectIdentified(ClassEnum.DOUBLE);
+            onInnerObjectIdentified(key + ":" + object.toString(), ClassEnum.DOUBLE);
 
         } else if (object instanceof Float) {
-            onInnerObjectIdentified(ClassEnum.FLOAT);
+            onInnerObjectIdentified(key + ":" + object.toString(), ClassEnum.FLOAT);
 
         } else if (object instanceof Long) {
-            onInnerObjectIdentified(ClassEnum.LONG);
+            onInnerObjectIdentified(key + ":" + object.toString(), ClassEnum.LONG);
 
         } else if (object instanceof Boolean) {
-            onInnerObjectIdentified(ClassEnum.BOOLEAN);
+            onInnerObjectIdentified(key + ":" + object.toString(), ClassEnum.BOOLEAN);
 
         } else {
-            onInnerObjectIdentified(ClassEnum.OBJECT);
+            onInnerObjectIdentified(key + ":" + object.toString(), ClassEnum.OBJECT);
         }
     }
 
-    public abstract void onInnerObjectIdentified(ClassEnum classEnum);
+    public abstract void onInnerObjectIdentified(String json, ClassEnum classEnum);
 
-    public abstract void onJsonObjectIdentified();
+    public abstract void onJsonObjectIdentified(String json);
 
-    public abstract void onJsonArrayIdentified();
+    public abstract void onJsonArrayIdentified(String json);
 }

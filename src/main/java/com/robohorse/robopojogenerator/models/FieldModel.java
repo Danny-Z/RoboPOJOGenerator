@@ -8,6 +8,7 @@ public class FieldModel {
     private String fieldName;
     private String fieldNameFormatted;
     private String annotation;
+    public String json;
 
     public String getClassType() {
         return classType;
@@ -49,6 +50,11 @@ public class FieldModel {
 
         public Builder setAnnotation(String annotation) {
             instance.annotation = annotation;
+            return this;
+        }
+
+        public Builder setJson(String json) {
+            instance.json = json;
             return this;
         }
 

@@ -6,7 +6,7 @@ package com.robohorse.robopojogenerator.generator.consts.templates;
 public interface ImportsTemplate {
     String LIST = "import java.util.List;";
 
-    String GENERATED = "import javax.annotation.Generated;";
+    String GENERATED = "//import javax.annotation.Generated;";
 
     String SERIALIZED_NAME = "import com.google.gson.annotations.SerializedName;";
 

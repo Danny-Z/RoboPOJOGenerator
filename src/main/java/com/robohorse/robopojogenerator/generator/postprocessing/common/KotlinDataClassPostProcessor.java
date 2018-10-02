@@ -48,6 +48,7 @@ public class KotlinDataClassPostProcessor extends BasePostProcessor {
                             .setFieldName(objectName)
                             .setClassType(classFields.get(objectName).getKotlinItem())
                             .setAnnotation(classItem.getAnnotation())
+                            .setJson(classFields.get(objectName).json)
                             .setFieldNameFormatted(generateHelper.formatClassField(objectName))
                             .build()
             ));

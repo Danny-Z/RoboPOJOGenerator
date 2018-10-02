@@ -1,8 +1,9 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven { url "http://dl.bintray.com/jetbrains/intellij-plugin-service" }
-        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'http://127.0.0.1:8081/repository/maven-public/' }
+//        mavenCentral()
+//        maven { url "http://dl.bintray.com/jetbrains/intellij-plugin-service" }
+//        maven { url "https://plugins.gradle.org/m2/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
@@ -35,7 +36,8 @@ coveralls {
 }
 
 repositories {
-    mavenCentral()
+//    mavenCentral()
+    maven { url 'http://127.0.0.1:8081/repository/maven-public/' }
 }
 
 group "com.robohorse.robopojogenerator"

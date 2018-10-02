@@ -62,21 +62,21 @@ public class ClassTemplateHelper {
         final String field = String.format(ClassTemplate.FIELD,
                 model.getClassType(),
                 model.getFieldNameFormatted());
-        return createAnnotatedField(model.getFieldName(), model.getAnnotation(), field);
+        return createAnnotatedField(model, field);
     }
 
     public String createAutoValueField(FieldModel model) {
         final String field = String.format(ClassTemplate.FIELD_AUTO_VALUE,
                 model.getClassType(),
                 model.getFieldNameFormatted());
-        return createAnnotatedField(model.getFieldName(), model.getAnnotation(), field);
+        return createAnnotatedField(model, field);
     }
 
     public String createKotlinDataClassField(FieldModel model) {
         final String field = String.format(ClassTemplate.FIELD_KOTLIN_DTO,
                 model.getFieldNameFormatted(),
                 model.getClassType()).replace(">", "?>");
-        return createAnnotatedField(model.getFieldName(), model.getAnnotation(), field);
+        return createAnnotatedField(model, field);
     }
 
     public String createClassBody(ClassItem classItem, String classBody) {
@@ -141,11 +141,21 @@ public class ClassTemplateHelper {
         }
     }
 
-    private String createAnnotatedField(String name, String annotation, String field) {
+    private String createAnnotatedField(FieldModel model, String field) {
+        String name = model.getFieldName();
+        String annotation = model.getAnnotation();
+
         if (null != annotation && !annotation.isEmpty()) {
-            return String.format(ClassTemplate.FIELD_ANNOTATED,
+            StringBuilder builder = new StringBuilder();
+            if(model.json != null) {
+                builder.append(ClassTemplate.NEW_LINE);
+                builder.append("//" + model.json);
+            }
+            builder.append(String.format(ClassTemplate.FIELD_ANNOTATED,
                     String.format(annotation, name),
-                    field);
+                    field));
+
+            return builder.toString();
         } else {
             return field;
         }

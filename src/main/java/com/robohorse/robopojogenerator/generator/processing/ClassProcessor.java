@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,19 +28,24 @@ public class ClassProcessor {
 
     public void proceed(JsonItem jsonItem, final Map<String, ClassItem> itemMap) {
         final ClassItem classItem = new ClassItem(classGenerateHelper.formatClassName(jsonItem.getKey()));
+        classItem.json = jsonItem.getJsonObject().toString();
         for (final String jsonObjectKey : jsonItem.getJsonObject().keySet()) {
             final Object object = jsonItem.getJsonObject().get(jsonObjectKey);
+            final String key = jsonObjectKey;
             final InnerObjectResolver innerObjectResolver = new InnerObjectResolver() {
 
                 @Override
-                public void onInnerObjectIdentified(ClassEnum classType) {
-                    classItem.addClassField(jsonObjectKey, new ClassField(classType));
+                public void onInnerObjectIdentified(String json, ClassEnum classType) {
+                    ClassField classField = new ClassField(classType);
+                    classField.json = json;
+                    classItem.addClassField(jsonObjectKey, classField);
                 }
 
                 @Override
-                public void onJsonObjectIdentified() {
+                public void onJsonObjectIdentified(String json) {
                     final String className = classGenerateHelper.formatClassName(jsonObjectKey);
                     final ClassField classField = new ClassField(className);
+                    classField.json = json;
                     final JsonItem jsonItem = new JsonItem((JSONObject) object, jsonObjectKey);
 
                     classItem.addClassField(jsonObjectKey, classField);
@@ -47,11 +53,12 @@ public class ClassProcessor {
                 }
 
                 @Override
-                public void onJsonArrayIdentified() {
+                public void onJsonArrayIdentified(String json) {
                     final JSONArray jsonArray = (JSONArray) object;
                     classItem.addClassImport(ImportsTemplate.LIST);
 
                     final ClassField classField = new ClassField();
+                    classField.json = json;
                     if (jsonArray.length() == 0) {
                         classField.setClassField(new ClassField(ClassEnum.OBJECT));
                         classItem.addClassField(jsonObjectKey, classField);
@@ -63,7 +70,7 @@ public class ClassProcessor {
                     }
                 }
             };
-            innerObjectResolver.resolveClassType(object);
+            innerObjectResolver.resolveClassType(key, object);
         }
         appendItemsMap(itemMap, classItem);
     }
@@ -86,12 +93,12 @@ public class ClassProcessor {
             final InnerObjectResolver innerObjectResolver = new InnerObjectResolver() {
 
                 @Override
-                public void onInnerObjectIdentified(ClassEnum classType) {
+                public void onInnerObjectIdentified(String json, ClassEnum classType) {
                     classField.setClassField(new ClassField(classType));
                 }
 
                 @Override
-                public void onJsonObjectIdentified() {
+                public void onJsonObjectIdentified(String json) {
                     final int size = jsonItemArray.getJsonArray().length();
                     final Map<String, ClassItem> innerItemsMap = new HashMap<String, ClassItem>();
                     for (int index = 0; index < size; index++) {
@@ -104,13 +111,13 @@ public class ClassProcessor {
                 }
 
                 @Override
-                public void onJsonArrayIdentified() {
+                public void onJsonArrayIdentified(String json) {
                     classField.setClassField(new ClassField());
                     final JsonItemArray jsonItemArray = new JsonItemArray((JSONArray) object, itemName);
                     proceedArray(jsonItemArray, classField, itemMap);
                 }
             };
-            innerObjectResolver.resolveClassType(object);
+            innerObjectResolver.resolveClassType("", object);
 
         } else {
             classField.setClassField(new ClassField(ClassEnum.OBJECT));

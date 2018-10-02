@@ -1,5 +1,6 @@
 package com.robohorse.robopojogenerator.generator.processing;
 
+import com.robohorse.robopojogenerator.delegates.FileWriterDelegate;
 import com.robohorse.robopojogenerator.generator.common.ClassField;
 import com.robohorse.robopojogenerator.generator.common.ClassItem;
 import com.robohorse.robopojogenerator.generator.common.JsonItem;
@@ -40,7 +41,7 @@ public class ClassProcessorTest {
 
     @Test
     public void testSingleObjectGeneration_isCorrect() throws Exception {
-        final JSONObject jsonObject = jsonReader.read("single_object.json");
+        final JSONObject jsonObject = jsonReader.read("check.json");
         final String name = "Response";
 
         when(classGenerateHelper.formatClassName(name))
@@ -49,6 +50,11 @@ public class ClassProcessorTest {
         final Map<String, ClassItem> classItemMap = new HashMap<>();
         final JsonItem jsonItem = new JsonItem(jsonObject, name);
         classProcessor.proceed(jsonItem, classItemMap);
+
+        for (ClassItem classItem : classItemMap.values()) {
+            new FileWriterDelegate().writeFile(classItem, null, null);
+        }
+
         assertTrue(classItemMap.size() == 1);
 
         Iterator iterator = classItemMap.values().iterator();
